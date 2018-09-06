@@ -5,7 +5,8 @@ import { fromJS } from 'immutable';
 const searchList = (data) => {
     return {
         type: constants.SEARCH_KEYLIST,
-        value: fromJS(data)
+        value: fromJS(data),
+        totalPage: Math.ceil(data.length/10)
     }
 };
 
@@ -31,4 +32,23 @@ export const getSearchList = () => {
 
         });
     };
+};
+
+export const mouseEnter = () => {
+    return {
+        type: constants.MOUSE_ENTER
+    }
+};
+
+export const mouseLeave = () => {
+    return {
+        type: constants.MOUSE_EXIT
+    }
+};
+
+export const changePage = (page) => {
+    return {
+        type: constants.CHANGE_PAGE,
+        page
+    }
 };

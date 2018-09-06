@@ -20,20 +20,25 @@ import {
 
 class Header extends Component{
     getListArea(){
-        const { focused, list } = this.props;
-        if (focused){
+        const { focused, list, page, totalPage, mouseIn, handleMouseEnter, handleMouseLeave, handleChangePage } = this.props;
+        const jsList = list.toJS();
+        const pageList = [];
+        if (jsList.length){
+            for (let i = (page-1)*10; i<page*10; i++){
+                if (jsList[i]) {
+                    pageList.push(<SearchInfoItem key={jsList[i]}>{jsList[i]}</SearchInfoItem>);
+                }
+            }
+        }
+        if (focused||mouseIn){
             return (
-                <SearchInfo>
+                <SearchInfo onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                     <SearchInfoTitle>
                         热门搜索
-                        <SearchInfoSwitch>换一批</SearchInfoSwitch>
+                        <SearchInfoSwitch onClick={ () => handleChangePage(page, totalPage)}>换一批</SearchInfoSwitch>
                     </SearchInfoTitle>
                     <SearchInfoList>
-                        {list.map((item) => {
-                            return (
-                                <SearchInfoItem key={item}>{item}</SearchInfoItem>
-                            );
-                        })}
+                        {pageList}
                     </SearchInfoList>
                 </SearchInfo>
             );
@@ -84,7 +89,10 @@ class Header extends Component{
 const mapStateToProps = (state) => {
     return {
         focused: state.get("header").get("focused"),
-        list: state.get("header").get("list")
+        list: state.get("header").get("list"),
+        page: state.get("header").get("page"),
+        mouseIn: state.get("header").get("mouseIn"),
+        totalPage: state.get("header").get("totalPage")
     }
 };
 
@@ -96,6 +104,19 @@ const mapDispatchToProps = (dispatch) => {
         handleInputFocused(){
             dispatch(actionCreaters.searchFocus());
             dispatch(actionCreaters.getSearchList());
+        },
+        handleMouseEnter(){
+            dispatch(actionCreaters.mouseEnter());
+        },
+        handleMouseLeave(){
+            dispatch(actionCreaters.mouseLeave());
+        },
+        handleChangePage(page, totalPage){
+            if (page < totalPage){
+                dispatch(actionCreaters.changePage(page + 1));
+            } else {
+                dispatch(actionCreaters.changePage(1));
+            }
         }
     }
 };
