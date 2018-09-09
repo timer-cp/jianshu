@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { HomeWrapper, HomeLeft, HomeRight } from './style';
+import { connect } from 'react-redux';
 import List from './components/List';
 import Recommend from './components/Recommend';
 import Topic from './components/Topic';
 import Writer from './components/Writer';
+import { actionCreaters } from './store';
 
 class Home extends Component{
 
@@ -23,6 +25,19 @@ class Home extends Component{
         );
     }
 
+    componentDidMount(){
+        const indexAction = actionCreaters.getIndexList();
+        this.props.changeHomeData(indexAction);
+    }
+
 }
 
-export default Home;
+const mapDispatch = (dispatch) => {
+    return {
+        changeHomeData(action) {
+            dispatch(action);
+        }
+    };
+};
+
+export default connect(null, mapDispatch)(Home);
