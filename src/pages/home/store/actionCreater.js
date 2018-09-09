@@ -12,6 +12,14 @@ const homeList = (data) => {
     }
 };
 
+const moreList = (data, page) => {
+    return {
+        type: constants.MORE_LIST,
+        data: data,
+        nextPage: page + 1
+    }
+};
+
 export const getIndexList = () => {
     return (dispatch) => {
         axios.get("/api/home.json").then((res) => {
@@ -22,4 +30,15 @@ export const getIndexList = () => {
             console.log("Get Home List Error!")
         });
     }
+};
+
+export const getMoreList = (articlePage) => {
+    return (dispatch) => {
+        axios.get("/api/homemore.json?page="+articlePage).then((res) => {
+            const data = res.data.data;
+            dispatch(moreList(data, articlePage));
+        }).catch(() => {
+            console.log("Get Home More List Error!")
+        });
+    };
 }

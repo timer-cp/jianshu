@@ -100,3 +100,16 @@ export const WriterWrapper = styled.div`
     line-height: 300px;
     text-align: center;
 `;
+
+export const LoadMore = styled.div`
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    background-color: #a5a5a5;
+    border-radius: 20px;
+    text-align: center;
+    margin-bottom: 60px;
+    margin-top: 30px;
+    color: #fff;
+    cursor: pointer;
+`;
