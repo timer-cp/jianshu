@@ -113,3 +113,15 @@ export const LoadMore = styled.div`
     color: #fff;
     cursor: pointer;
 `;
+
+export const BackToTop = styled.div`
+    width: 60px;
+    height: 60px;
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    line-height: 60px;
+    text-align: center;
+    border: 1px solid #ccc;
+    font-size: 14px;
+`;

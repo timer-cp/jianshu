@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HomeWrapper, HomeLeft, HomeRight, LoadMore } from './style';
+import { HomeWrapper, HomeLeft, HomeRight, LoadMore, BackToTop } from './style';
 import { connect } from 'react-redux';
 import List from './components/List';
 import Recommend from './components/Recommend';
@@ -8,6 +8,10 @@ import Writer from './components/Writer';
 import { actionCreaters } from './store';
 
 class Home extends Component{
+
+    handleScrollTop(){
+        window.scroll(0, 0);
+    }
 
     render(){
         return(
@@ -24,6 +28,7 @@ class Home extends Component{
                     <Recommend/>
                     <Writer/>
                 </HomeRight>
+                {this.props.showScroll?<BackToTop onClick={this.handleScrollTop}>顶部</BackToTop>:null}
             </HomeWrapper>
         );
     }
@@ -31,13 +36,23 @@ class Home extends Component{
     componentDidMount(){
         const indexAction = actionCreaters.getIndexList();
         this.props.changeHomeData(indexAction);
+        this.bindEvents();
+    }
+
+    componentWillUnmount(){
+        window.removeEventListener("scroll", this.props.changeScrollTopShow);
+    }
+
+    bindEvents(){
+        window.addEventListener("scroll", this.props.changeScrollTopShow);
     }
 
 }
 
 const mapState = (state) => {
     return {
-        articlePage: state.get('home').get('articlePage')
+        articlePage: state.get('home').get('articlePage'),
+        showScroll: state.get('home').get('showScroll')
     };
 };
 
@@ -48,6 +63,13 @@ const mapDispatch = (dispatch) => {
         },
         getHomeMore(articlePage){
             dispatch(actionCreaters.getMoreList(articlePage));
+        },
+        changeScrollTopShow(){
+            if (document.documentElement.scrollTop > 300){
+                dispatch(actionCreaters.toggleTopshow(true));
+            } else {
+                dispatch(actionCreaters.toggleTopshow(false));
+            }
         }
     };
 };

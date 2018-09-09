@@ -41,4 +41,11 @@ export const getMoreList = (articlePage) => {
             console.log("Get Home More List Error!")
         });
     };
-}
+};
+
+export const toggleTopshow = (show) => {
+    return {
+        type: constants.TOP_SHOW,
+        showScroll: show
+    };
+};
