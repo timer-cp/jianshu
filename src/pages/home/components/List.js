@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ListItem, ListInfo } from '../style';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 class List extends Component{
     render(){
@@ -10,15 +11,17 @@ class List extends Component{
                 {
                     list.map((item, index) => {
                         return (
-                            <ListItem key={index}>
-                                <img alt=''
-                                     src={item.get('imgUrl')}
-                                     className='list-pic'/>
-                                <ListInfo>
-                                    <h3 className='title'>{item.get('title')}</h3>
-                                    <p className='desc'>{item.get('desc')}</p>
-                                </ListInfo>
-                            </ListItem>
+                            <Link key={index} to={'/detail/'+item.get('id')}>
+                                <ListItem key={index}>
+                                    <img alt=''
+                                         src={item.get('imgUrl')}
+                                         className='list-pic'/>
+                                    <ListInfo>
+                                        <h3 className='title'>{item.get('title')}</h3>
+                                        <p className='desc'>{item.get('desc')}</p>
+                                    </ListInfo>
+                                </ListItem>
+                            </Link>
                         );
                     })
                 }
